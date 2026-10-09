@@ -1,0 +1,80 @@
+[
+  {
+    "id": "lez-classificare-animali",
+    "titolo": "Come si classificano gli animali: la mappa in 4 livelli",
+    "categoria": "Animali",
+    "categoria_id": "animali",
+    "tipo": "lezione",
+    "engagement": null,
+    "quality": null,
+    "wow": null,
+    "hook_ok": null,
+    "verdict": "error",
+    "reason": ""
+  },
+  {
+    "id": "lez-ecolocalizzazione",
+    "titolo": "Come funziona l'ecolocalizzazione: vedere con le orecchie",
+    "categoria": "Animali",
+    "categoria_id": "animali",
+    "tipo": "lezione",
+    "engagement": null,
+    "quality": null,
+    "wow": null,
+    "hook_ok": null,
+    "verdict": "error",
+    "reason": ""
+  },
+  {
+    "id": "v4-lez-catena-alimentare",
+    "titolo": "La catena alimentare: perché i predatori sono sempre pochi",
+    "categoria": "Animali",
+    "categoria_id": "animali",
+    "tipo": "lezione",
+    "engagement": null,
+    "quality": null,
+    "wow": null,
+    "hook_ok": null,
+    "verdict": "error",
+    "reason": ""
+  },
+  {
+    "id": "v4-lez-incontro-fauna",
+    "titolo": "Cosa fare se incontri un animale selvatico",
+    "categoria": "Animali",
+    "categoria_id": "animali",
+    "tipo": "lezione",
+    "engagement": null,
+    "quality": null,
+    "wow": null,
+    "hook_ok": null,
+    "verdict": "error",
+    "reason": ""
+  },
+  {
+    "id": "v4-lez-osservare-uccelli",
+    "titolo": "Riconoscere gli uccelli in città: il metodo in 4 passi",
+    "categoria": "Animali",
+    "categoria_id": "animali",
+    "tipo": "lezione",
+    "engagement": null,
+    "quality": null,
+    "wow": null,
+    "hook_ok": null,
+    "verdict": "error",
+    "reason": ""
+  },
+  {
+    "id": "v5-lez-comunicazione-animale",
+    "titolo": "Come parlano gli animali: i 4 canali della comunicazione",
+    "categoria": "Animali",
+    "categoria_id": "animali",
+    "tipo": "lezione",
+    "engagement": null,
+    "quality": null,
+    "wow": null,
+    "hook_ok": null,
+    "verdict": "error",
+    "reason": ""
+  }
+]
