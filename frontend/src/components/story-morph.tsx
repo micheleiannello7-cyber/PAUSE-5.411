@@ -293,7 +293,7 @@ export function StoryMorph({ story, from: fromProp, premium, ready, onCommit, di
           <CoverTitle title={story.title} highlight={story.highlight_words} reveal={still} testID="story-morph-moving-title" />
         </MorphSharedElement>
         <MorphSharedElement from={sourceGrid} to={target.grid} progress={p} testID="story-morph-badges">
-          <View style={{ height: CARD_FOOTER_H, justifyContent: "center" }}>
+          <View style={{ height: CARD_FOOTER_H, justifyContent: "center", paddingHorizontal: 12 }}>
             <CardFooterRule />
             <StoryInfoGrid story={story} minutes={story.reading_time_min} inline embedded testID="story-morph-home-grid" />
           </View>

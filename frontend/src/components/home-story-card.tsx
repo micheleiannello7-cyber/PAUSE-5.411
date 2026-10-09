@@ -12,7 +12,7 @@ import { HighlightedTitle } from "./highlighted-title";
 import { StoryInfoGrid } from "./story-info-grid";
 
 /** Altezza della fascia dati in fondo alla card (condivisa con story-morph). */
-export const CARD_FOOTER_H = 54;
+export const CARD_FOOTER_H = 64;
 
 /** Linea sottile luminosa che separa titolo e dati, sfumata ai lati. */
 export function CardFooterRule() {
@@ -99,7 +99,7 @@ const useStyles = makeStyles((colors) => ({
   // Bordo sottilissimo con luce ambientale nel colore del tema (riflesso, non neon).
   card: { flex: 1, borderRadius: 19, overflow: "hidden", justifyContent: "flex-end", backgroundColor: colors.artworkSurface, borderWidth: 1, borderColor: withAlpha(colors.brand, 0.42), boxShadow: `0px 0px 22px ${withAlpha(colors.brand, 0.16)}` as any },
   noTouch: { pointerEvents: "none" },
-  footer: { height: CARD_FOOTER_H, justifyContent: "center", backgroundColor: withAlpha(colors.surfaceDeep, 0.42), pointerEvents: "none" },
+  footer: { height: CARD_FOOTER_H, justifyContent: "center", paddingHorizontal: 12, pointerEvents: "none" },
   body: { padding: 16, paddingBottom: 16, gap: 10, pointerEvents: "box-none" },
   titleRow: { flexDirection: "row", alignItems: "flex-end", gap: 10, pointerEvents: "box-none" },
   title: {

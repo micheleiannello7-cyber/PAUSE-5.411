@@ -18,27 +18,28 @@ import { useIconFamily } from "@/src/icon-theme";
 
 // Dimensioni finali comuni a tema 3D e Olografico, scelte perché la parte
 // visibile delle tre icone (lampadina/libri · oggetto categoria · orologio)
-// abbia la stessa altezza (~23px). `KindIcon` e l'orologio PNG hanno ~15% di
-// margine trasparente dentro l'immagine, la categoria è ritagliata stretta
-// (`tight`): servono misure diverse per compensare.
-const GLYPH = 32;      // lampadina / libri · orologio (sia 3D che Olografico)
-const CATEGORY = 23;   // categoria ritagliata (sia 3D che Olografico) — ~15% più piccola di libri/orologio
+// abbia la stessa altezza. `KindIcon` e l'orologio PNG hanno ~15% di margine
+// trasparente dentro l'immagine; la categoria è ritagliata stretta (`tight`):
+// serve una misura un filo diversa per pareggiare la dimensione visibile.
+const GLYPH = 30;      // lampadina / libri · orologio (sia 3D che Olografico)
+const CATEGORY = 29;   // categoria ritagliata — pareggiata alle altre due
 // Orologio 3D generato nello stesso stile delle icone categoria e dei CTA.
 const CLOCK = require("../../assets/images/kind-clock.png");
 
 export function StoryInfoGrid({ story, minutes, inline = false, embedded = false, testID = "story-info-grid" }: {
   story: StoryPreview; minutes: number;
-  /** Lettura/Home: barra "vetro" che racchiude le tre pill. */
+  /** Lettura/Home standalone: la barra è autoportante. */
   inline?: boolean;
-  /** Dentro la card della Home: nessuna barra propria (il contenitore è la card). */
+  /** Dentro la card della Home: la barra si estende nello spazio della card. */
   embedded?: boolean; testID?: string;
 }) {
   const styles = useStyles();
   const { t } = useI18n();
   const [iconFamily] = useIconFamily();
   const lesson = isLesson(story);
-  // Le icone originali restano identiche: cambia solo l'involucro (tre pill).
-  // Prime due pill: solo icona. Terza pill: orologio + tempo di lettura.
+  // Le icone originali restano identiche: cambia solo l'involucro. Un unico
+  // contenitore racchiude le tre pill. Prime due: solo icona. Terza: orologio
+  // con il tempo di lettura SOTTO l'icona (come da mockup).
   const clockIcon = iconFamily === "holo"
     ? <HoloClock size={GLYPH} testID={`${testID}-time-icon`} />
     : iconFamily === "gem"
@@ -47,56 +48,53 @@ export function StoryInfoGrid({ story, minutes, inline = false, embedded = false
   return (
     <View style={[styles.bar, inline && styles.barInline, embedded && styles.barEmbedded]} testID={testID}>
       <View style={styles.pill} testID={`${testID}-kind`}>
-        <View style={styles.iconWrap}>
+        <View style={styles.iconSlot}>
           <KindIcon kind={lesson ? "lessons" : "stories"} size={GLYPH} glow={false} testID={`${testID}-kind-icon`} />
         </View>
+        <View style={styles.textSlot} />
       </View>
       <View style={styles.pill} testID={`${testID}-category`}>
-        <View style={styles.iconWrap}>
+        <View style={styles.iconSlot}>
           <CategoryArtMark categoryId={story.category_id} color={story.category_color} size={CATEGORY} aspect={1.3} plain tight testID={`${testID}-category-icon`} />
         </View>
+        <View style={styles.textSlot} />
       </View>
       <View style={styles.pill} testID={`${testID}-time`}>
-        <View style={styles.iconWrap}>{clockIcon}</View>
-        <Text style={styles.value} numberOfLines={1} testID={`${testID}-time-value`}>{`${minutes} ${t.min}`}</Text>
+        <View style={styles.iconSlot}>{clockIcon}</View>
+        <View style={styles.textSlot}>
+          <Text style={styles.value} numberOfLines={1} testID={`${testID}-time-value`}>{`${minutes} ${t.min}`}</Text>
+        </View>
       </View>
     </View>
   );
 }
 
-const PILL_H = 42;
-
 const useStyles = makeStyles((colors) => ({
-  // Barra contenitrice: tre colonne uguali, spaziatura costante, adattata alle
-  // tre pill senza spazi inutili. Stesso linguaggio visivo del contenitore.
+  // Contenitore UNICO che racchiude le tre pill: fondo scuro traslucido e bordo
+  // luminoso discreto, ben visibile. Tre colonne uguali, spaziatura costante,
+  // adattato alle pill senza spazi inutili.
   bar: {
-    flexDirection: "row", alignItems: "center", gap: 8,
-    paddingHorizontal: 6, paddingVertical: 6, borderRadius: 18, overflow: "hidden",
+    flexDirection: "row", alignItems: "stretch", gap: 7,
+    padding: 6, borderRadius: 18, overflow: "hidden",
+    backgroundColor: withAlpha(colors.surfaceDeep, 0.55),
+    borderWidth: 1, borderColor: withAlpha(colors.brand, 0.38),
+    boxShadow: `inset 0px 0px 16px ${withAlpha(colors.brand, 0.1)}, 0px 6px 20px ${withAlpha(colors.surfaceDeep, 0.55)}` as any,
   },
-  // Lettura/Home standalone: la barra ha il suo "vetro" (fondo scuro + bordo luminoso discreto).
-  barInline: {
-    alignSelf: "stretch",
-    backgroundColor: withAlpha(colors.surfaceDeep, 0.5),
-    borderWidth: 1, borderColor: withAlpha(colors.brand, 0.22),
-    boxShadow: `0px 6px 22px ${withAlpha(colors.surfaceDeep, 0.5)}` as any,
-  },
-  // Dentro la card: il contenitore è la card, la barra resta trasparente.
-  barEmbedded: {
-    flex: 1, backgroundColor: "transparent", borderWidth: 0, boxShadow: "none" as any,
-  },
+  barInline: { alignSelf: "stretch" },
+  barEmbedded: { flex: 1 },
   // Pill individuale: larghezza uniforme (flex 1), arrotondata, fondo scuro
-  // traslucido e bordo luminoso discreto. Dimensioni fisse → layout stabile
-  // qualunque sia la categoria o la lunghezza del tempo.
+  // traslucido e bordo luminoso. Icona in alto, tempo sotto (solo la terza).
   pill: {
-    flex: 1, height: PILL_H, borderRadius: 13,
-    flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5,
-    backgroundColor: withAlpha(colors.surfaceDeep, 0.62),
+    flex: 1, borderRadius: 13, paddingVertical: 5,
+    alignItems: "center", justifyContent: "center",
+    backgroundColor: withAlpha(colors.surfaceDeep, 0.72),
     borderWidth: 1, borderColor: withAlpha(colors.brand, 0.3),
-    boxShadow: `inset 0px 0px 12px ${withAlpha(colors.brand, 0.1)}` as any,
   },
-  // Area riservata all'icona identica in tutte e tre le pill.
-  iconWrap: { width: 32, height: GLYPH, flexShrink: 0, alignItems: "center", justifyContent: "center" },
+  // Area icona identica in tutte e tre le pill: icone allineate sulla stessa riga.
+  iconSlot: { width: 40, height: 30, alignItems: "center", justifyContent: "center" },
+  // Slot del testo sotto l'icona (vuoto nelle prime due): mantiene allineate le icone.
+  textSlot: { height: 15, alignItems: "center", justifyContent: "center" },
   clock: { width: GLYPH, height: GLYPH },
-  // Tempo di lettura: stessa riga dell'orologio, mai a capo.
-  value: { color: colors.textWarm, fontFamily: typography.bodyMedium, fontSize: 12, lineHeight: 16 },
+  // Tempo di lettura sotto l'orologio, mai a capo.
+  value: { color: colors.textWarm, fontFamily: typography.bodyMedium, fontSize: 11.5, lineHeight: 15 },
 }));

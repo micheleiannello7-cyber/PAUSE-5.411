@@ -13,7 +13,7 @@ import { CATEGORY_ART_VERSION } from "./category-artwork";
 
 // Geometria condivisa con la transizione verso il lettore (story-morph).
 export const DECK_BADGES_GAP = 10;
-export const DECK_BADGES_H = 54;
+export const DECK_BADGES_H = 64;
 const CROSSFADE_MS = 180;
 
 type Props = {
