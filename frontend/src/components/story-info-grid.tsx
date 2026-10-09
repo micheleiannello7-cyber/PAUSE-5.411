@@ -51,19 +51,15 @@ export function StoryInfoGrid({ story, minutes, inline = false, embedded = false
         <View style={styles.iconSlot}>
           <KindIcon kind={lesson ? "lessons" : "stories"} size={GLYPH} glow={false} testID={`${testID}-kind-icon`} />
         </View>
-        <View style={styles.textSlot} />
       </View>
       <View style={styles.pill} testID={`${testID}-category`}>
         <View style={styles.iconSlot}>
           <CategoryArtMark categoryId={story.category_id} color={story.category_color} size={CATEGORY} aspect={1.3} plain tight testID={`${testID}-category-icon`} />
         </View>
-        <View style={styles.textSlot} />
       </View>
       <View style={styles.pill} testID={`${testID}-time`}>
         <View style={styles.iconSlot}>{clockIcon}</View>
-        <View style={styles.textSlot}>
-          <Text style={styles.value} numberOfLines={1} testID={`${testID}-time-value`}>{`${minutes} ${t.min}`}</Text>
-        </View>
+        <Text style={styles.value} numberOfLines={1} testID={`${testID}-time-value`}>{`${minutes} ${t.min}`}</Text>
       </View>
     </View>
   );
@@ -83,18 +79,17 @@ const useStyles = makeStyles((colors) => ({
   barInline: { alignSelf: "stretch" },
   barEmbedded: { flex: 1 },
   // Pill individuale: larghezza uniforme (flex 1), arrotondata, fondo scuro
-  // traslucido e bordo luminoso. Icona in alto, tempo sotto (solo la terza).
+  // traslucido e bordo luminoso. Contenuto centrato verticalmente: le prime
+  // due hanno solo l'icona (ben centrata), la terza icona + tempo sotto.
   pill: {
-    flex: 1, borderRadius: 13, paddingVertical: 5,
+    flex: 1, borderRadius: 13, paddingVertical: 6, gap: 1,
     alignItems: "center", justifyContent: "center",
     backgroundColor: withAlpha(colors.surfaceDeep, 0.72),
     borderWidth: 1, borderColor: withAlpha(colors.brand, 0.3),
   },
-  // Area icona identica in tutte e tre le pill: icone allineate sulla stessa riga.
+  // Area icona identica in tutte e tre le pill.
   iconSlot: { width: 40, height: 30, alignItems: "center", justifyContent: "center" },
-  // Slot del testo sotto l'icona (vuoto nelle prime due): mantiene allineate le icone.
-  textSlot: { height: 15, alignItems: "center", justifyContent: "center" },
   clock: { width: GLYPH, height: GLYPH },
   // Tempo di lettura sotto l'orologio, mai a capo.
-  value: { color: colors.textWarm, fontFamily: typography.bodyMedium, fontSize: 11.5, lineHeight: 15 },
+  value: { color: colors.textWarm, fontFamily: typography.bodyMedium, fontSize: 11.5, lineHeight: 14 },
 }));
