@@ -12,7 +12,7 @@ import { HighlightedTitle } from "./highlighted-title";
 import { StoryInfoGrid } from "./story-info-grid";
 
 /** Altezza della fascia dati in fondo alla card (condivisa con story-morph). */
-export const CARD_FOOTER_H = 74;
+export const CARD_FOOTER_H = 58;
 
 /** Linea sottile luminosa che separa titolo e dati, sfumata ai lati. */
 export function CardFooterRule() {
