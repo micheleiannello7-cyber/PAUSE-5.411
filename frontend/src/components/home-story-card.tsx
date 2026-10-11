@@ -12,14 +12,15 @@ import { HighlightedTitle } from "./highlighted-title";
 import { StoryInfoGrid } from "./story-info-grid";
 
 /** Altezza della fascia dati in fondo alla card (condivisa con story-morph). */
-export const CARD_FOOTER_H = 58;
+export const CARD_FOOTER_H = 54;
 
-/** Linea sottile luminosa che separa titolo e dati, sfumata ai lati. */
+/** Linea sottile luminosa che separa titolo e dati: sfumatura ciano→viola, delicata. */
 export function CardFooterRule() {
   const { colors } = useTheme();
   return (
     <LinearGradient pointerEvents="none" start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-      colors={[withAlpha(colors.brand, 0), withAlpha(colors.brand, 0.34), withAlpha(colors.brand, 0)]}
+      colors={[withAlpha(colors.cyan, 0), withAlpha(colors.cyan, 0.4), withAlpha(colors.brand, 0.44), withAlpha(colors.brand, 0)]}
+      locations={[0, 0.28, 0.72, 1]}
       style={footerRule} />
   );
 }

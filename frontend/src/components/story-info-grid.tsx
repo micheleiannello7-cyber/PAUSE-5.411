@@ -1,9 +1,9 @@
-// PAUSE — badge informativo della storia: un UNICO contenitore "vetro" con tre
-// scomparti separati da una linea verticale elegante (sfumata). Primo scomparto:
-// solo icona del tipo. Secondo: solo icona della categoria. Terzo: orologio con
-// il tempo di lettura ("5 min") sulla stessa riga. Le icone originali restano
-// identiche e allineate sulla stessa riga. Usato in Home card, apertura del
-// lettore e transizione morph.
+// PAUSE — badge informativo della storia (proposta B): NESSUN contenitore
+// esterno. Una linea orizzontale luminosa (CardFooterRule) sta sopra la griglia,
+// tra il titolo e i dati. Riga unica con tre posizioni stabili, separate da una
+// sottile linea verticale sfumata. Prime due: solo icona, senza testo. Terza:
+// orologio + tempo di lettura dentro un piccolo badge arrotondato (glassmorphism).
+// Le icone originali restano identiche. Usato in Home card, lettore e morph.
 import { Fragment } from "react";
 import { View, Text } from "react-native";
 import { Image } from "expo-image";
@@ -25,6 +25,7 @@ import { useIconFamily } from "@/src/icon-theme";
 // serve una misura un filo diversa per pareggiare la dimensione visibile.
 const GLYPH = 30;      // lampadina / libri · orologio (sia 3D che Olografico)
 const CATEGORY = 29;   // categoria ritagliata — pareggiata alle altre due
+const CLOCK_GLYPH = 24; // orologio dentro il badge: un filo più piccolo, così il badge resta compatto
 // Orologio 3D generato nello stesso stile delle icone categoria e dei CTA.
 const CLOCK = require("../../assets/images/kind-clock.png");
 
@@ -40,11 +41,11 @@ export function StoryInfoGrid({ story, minutes, inline = false, embedded = false
   const { t } = useI18n();
   const [iconFamily] = useIconFamily();
   const lesson = isLesson(story);
-  // Le icone originali restano identiche. Un UNICO contenitore con tre scomparti
-  // separati da una linea sfumata. Orologio e tempo sulla stessa riga: le tre
-  // icone restano allineate.
+  // Le icone originali restano identiche. Nessun contenitore esterno: solo tre
+  // posizioni separate da una linea verticale sfumata. L'orologio e il tempo
+  // vivono dentro un piccolo badge arrotondato (glassmorphism).
   const clockIcon = iconFamily === "holo"
-    ? <HoloClock size={GLYPH} testID={`${testID}-time-icon`} />
+    ? <HoloClock size={CLOCK_GLYPH} testID={`${testID}-time-icon`} />
     : iconFamily === "gem"
       ? <View style={styles.clock} testID={`${testID}-time-icon`}><GemSymbol name="clock" /></View>
       : <Image source={CLOCK} style={styles.clock} contentFit="contain" transition={0} testID={`${testID}-time-icon`} />;
@@ -55,10 +56,10 @@ export function StoryInfoGrid({ story, minutes, inline = false, embedded = false
     <View style={styles.iconSlot} key="category">
       <CategoryArtMark categoryId={story.category_id} color={story.category_color} size={CATEGORY} aspect={1.3} plain tight testID={`${testID}-category-icon`} />
     </View>,
-    <Fragment key="time">
-      <View style={styles.iconSlot}>{clockIcon}</View>
+    <View style={styles.timeBadge} key="time">
+      <View style={styles.clockWrap}>{clockIcon}</View>
       <Text style={styles.value} numberOfLines={1} testID={`${testID}-time-value`}>{`${minutes} ${t.min}`}</Text>
-    </Fragment>,
+    </View>,
   ];
   const ids = ["kind", "category", "time"];
   return (
@@ -81,25 +82,31 @@ export function StoryInfoGrid({ story, minutes, inline = false, embedded = false
 }
 
 const useStyles = makeStyles((colors) => ({
-  // UNICO contenitore "vetro" che racchiude i tre scomparti: fondo scuro
-  // traslucido e bordo luminoso discreto. Nessun mini-contenitore interno.
+  // Nessun contenitore: composizione libera e leggera. Riga unica, contenuto
+  // centrato verticalmente. La linea orizzontale sopra è la CardFooterRule.
   bar: {
     flexDirection: "row", alignItems: "center", gap: 0,
-    paddingHorizontal: 4, paddingVertical: 10, borderRadius: 16, overflow: "hidden",
-    backgroundColor: withAlpha(colors.surfaceDeep, 0.6),
-    borderWidth: 1, borderColor: withAlpha(colors.brand, 0.34),
-    boxShadow: `inset 0px 0px 16px ${withAlpha(colors.brand, 0.08)}, 0px 6px 20px ${withAlpha(colors.surfaceDeep, 0.55)}` as any,
+    paddingHorizontal: 2, paddingVertical: 6,
   },
   barInline: { alignSelf: "stretch" },
   barEmbedded: { flex: 1 },
-  // Scomparto: larghezza uniforme (flex 1), contenuto centrato. Orologio+tempo
-  // sulla stessa riga; tutte le icone restano allineate sulla stessa riga.
+  // Scomparto: larghezza uniforme (flex 1), tre posizioni sempre stabili.
   cell: { flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, minWidth: 0 },
   // Linea di separazione verticale, sfumata ai bordi: elegante, discreta.
-  divider: { width: 1, height: 30 },
-  // Area icona identica nei tre scomparti.
+  divider: { width: 1, height: 26 },
+  // Area icona identica per le prime due icone.
   iconSlot: { width: 40, height: 30, alignItems: "center", justifyContent: "center", flexShrink: 0 },
-  clock: { width: GLYPH, height: GLYPH },
+  // Badge compatto dell'orologio: sfondo scuro semitrasparente, bordo luminoso
+  // discreto, leggero glassmorphism. Non deve dominare sulle altre due icone.
+  timeBadge: {
+    flexDirection: "row", alignItems: "center", gap: 5,
+    paddingLeft: 6, paddingRight: 10, paddingVertical: 4, borderRadius: 999,
+    backgroundColor: withAlpha(colors.surfaceDeep, 0.55),
+    borderWidth: 1, borderColor: withAlpha(colors.brand, 0.32),
+    boxShadow: `inset 0px 0px 10px ${withAlpha(colors.brand, 0.07)}` as any,
+  },
+  clockWrap: { width: CLOCK_GLYPH, height: CLOCK_GLYPH, alignItems: "center", justifyContent: "center", flexShrink: 0 },
+  clock: { width: CLOCK_GLYPH, height: CLOCK_GLYPH },
   // Tempo di lettura accanto all'orologio, mai a capo.
   value: { color: colors.textWarm, fontFamily: typography.bodyMedium, fontSize: 12.5, lineHeight: 16, flexShrink: 1 },
 }));
