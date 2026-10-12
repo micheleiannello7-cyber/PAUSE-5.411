@@ -71,7 +71,7 @@ export function HomeStoryCard({ story, active, instance, onOpen, onListen, defoc
           nella stessa card: una fascia di vetro separata da una linea sottile. */}
       <Animated.View style={[styles.body, bodyStyle]} pointerEvents="box-none">
         <View style={styles.titleRow} pointerEvents="box-none">
-          <HighlightedTitle testID={`${id}-title`} title={story.title} highlight={story.highlight_words} style={[styles.title, { fontSize, lineHeight: fontSize * 1.14 }]}
+          <HighlightedTitle testID={`${id}-title`} title={story.title} highlight={story.highlight_words} style={[styles.title, { fontSize, lineHeight: fontSize * 1.25 }]}
             numberOfLines={4} adjustsFontSizeToFit minimumFontScale={0.8} />
           {onListen && <Pressable testID={active ? "home-listen-story" : `${id}-listen`} accessibilityRole="button" accessibilityLabel={t.audio_listen_short} onPress={onListen} style={styles.listen}>
             <Ionicons name="headset-outline" size={19} color={colors.cyan} />

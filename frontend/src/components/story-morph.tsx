@@ -286,7 +286,7 @@ export function StoryMorph({ story, from: fromProp, premium, ready, onCommit, di
         </Animated.View>
         <MorphSharedElement from={sourceTitle} to={target.title} progress={p}
           onLayout={(e) => setHomeTitleH(e.nativeEvent.layout.height)} testID="story-morph-title">
-          <HighlightedTitle title={story.title} highlight={story.highlight_words} style={[styles.cardTitle, { fontSize: cardFont, lineHeight: cardFont * 1.14 }]}
+          <HighlightedTitle title={story.title} highlight={story.highlight_words} style={[styles.cardTitle, { fontSize: cardFont, lineHeight: cardFont * 1.25 }]}
             numberOfLines={4} adjustsFontSizeToFit minimumFontScale={0.8} />
         </MorphSharedElement>
         <MorphSharedElement from={sourceTitle} to={target.title} progress={p} destination testID="story-morph-reader-title">

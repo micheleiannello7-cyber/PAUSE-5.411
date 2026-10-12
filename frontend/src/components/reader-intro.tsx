@@ -149,7 +149,7 @@ export function CoverTitle({ title, highlight, reveal, testID = "deep-dive-cover
   const fontSize = coverTitleFont(title);
   return (
     <Animated.View style={fade}>
-      <HighlightedTitle title={title} highlight={highlight} style={[styles.coverTitle, { fontSize, lineHeight: Math.round(fontSize * 1.16) }]} testID={testID} />
+      <HighlightedTitle title={title} highlight={highlight} style={[styles.coverTitle, { fontSize, lineHeight: Math.round(fontSize * 1.24) }]} testID={testID} />
     </Animated.View>
   );
 }
