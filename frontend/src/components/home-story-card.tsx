@@ -78,7 +78,7 @@ export function HomeStoryCard({ story, active, instance, onOpen, onListen, defoc
           </Pressable>}
         </View>
       </Animated.View>
-      <Animated.View style={[styles.footer, bodyStyle]} pointerEvents="none" testID={`${id}-badges`}>
+      <Animated.View style={[styles.footer, bodyStyle]} pointerEvents="box-none" testID={`${id}-badges`}>
         <CardFooterRule />
         <StoryInfoGrid story={story} minutes={story.reading_time_min} inline embedded testID={active ? "home-story-meta" : `${id}-meta`} />
       </Animated.View>
@@ -100,7 +100,7 @@ const useStyles = makeStyles((colors) => ({
   // Bordo sottilissimo con luce ambientale nel colore del tema (riflesso, non neon).
   card: { flex: 1, borderRadius: 19, overflow: "hidden", justifyContent: "flex-end", backgroundColor: colors.artworkSurface, borderWidth: 1, borderColor: withAlpha(colors.brand, 0.42), boxShadow: `0px 0px 22px ${withAlpha(colors.brand, 0.16)}` as any },
   noTouch: { pointerEvents: "none" },
-  footer: { height: CARD_FOOTER_H, justifyContent: "center", paddingHorizontal: 12, pointerEvents: "none" },
+  footer: { height: CARD_FOOTER_H, justifyContent: "center", paddingHorizontal: 12, pointerEvents: "box-none" },
   body: { padding: 16, paddingBottom: 16, gap: 10, pointerEvents: "box-none" },
   titleRow: { flexDirection: "row", alignItems: "flex-end", gap: 10, pointerEvents: "box-none" },
   title: {
